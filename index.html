@@ -1,113 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NOURISH HUB - Task Management</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#173f35">
+  <title>NOURISH HUB | Task Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="app-layout">
-    <!-- Sidebar Navigation -->
-    <aside class="sidebar">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
       <div class="brand">
-        <span class="brand-badge">NH</span>
-        <h2>NOURISH HUB</h2>
+        <div class="brand-mark">N</div>
+        <div><strong>NOURISH HUB</strong><span>People • Purpose • Progress</span></div>
       </div>
 
-      <nav class="nav-roles">
-        <p class="nav-heading">ROLES & DEPARTMENTS</p>
-        <button class="nav-btn active" data-role="all">
-          <span class="icon">📋</span> All Tasks
-        </button>
-        <button class="nav-btn" data-role="CEO">
-          <span class="icon">👑</span> CEO Office
-        </button>
-        <button class="nav-btn" data-role="Manager">
-          <span class="icon">📊</span> Manager
-        </button>
-        <button class="nav-btn" data-role="Accountant">
-          <span class="icon">💰</span> Accountant
-        </button>
-        <button class="nav-btn" data-role="Secretary">
-          <span class="icon">📂</span> Secretary
-        </button>
+      <div class="workspace-label">WORKSPACE</div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-link active" data-view="overview"><span class="nav-icon">⌂</span> Overview</button>
+        <button class="nav-link" data-view="tasks"><span class="nav-icon">▤</span> Tasks <span class="nav-count" id="navTaskCount">0</span></button>
+        <button class="nav-link" data-view="finance"><span class="nav-icon">◫</span> Finance</button>
+        <button class="nav-link" data-view="calendar"><span class="nav-icon">▦</span> Meetings & Events</button>
+        <button class="nav-link" data-view="team"><span class="nav-icon">♧</span> Team</button>
       </nav>
 
-      <div class="sidebar-footer">
-        <p class="ngo-tag">Empowering Community Nutrition</p>
+      <div class="sidebar-bottom">
+        <div class="help-card">
+          <div class="help-icon">✦</div>
+          <strong>Working together</strong>
+          <p>Keep every activity visible, coordinated and moving forward.</p>
+        </div>
+        <div class="profile-mini">
+          <div class="avatar" id="sideAvatar">CE</div>
+          <div class="profile-copy"><strong id="sideName">Chief Executive</strong><span id="sideRole">CEO</span></div>
+          <button class="dots" id="roleSwitchBtn" title="Switch role" aria-label="Switch role">•••</button>
+        </div>
       </div>
     </aside>
 
-    <!-- Main Content Area -->
-    <main class="main-content">
-      <!-- Top Header -->
+    <main class="main-area">
       <header class="topbar">
-        <div>
-          <h1 id="current-view-title">All Tasks Overview</h1>
-          <p class="subtitle" id="current-view-desc">Tracking active NGO assignments and operations</p>
-        </div>
-        <div class="stats-pills">
-          <span class="pill total" id="total-stat">0 Total</span>
-          <span class="pill completed" id="completed-stat">0 Done</span>
+        <button class="mobile-menu" id="mobileMenu" aria-label="Open navigation">☰</button>
+        <div class="breadcrumb">NOURISH HUB <span>/</span> <strong id="pageCrumb">Overview</strong></div>
+        <div class="top-actions">
+          <div class="today-label" id="todayLabel"></div>
+          <button class="icon-button" id="topAddTask" title="Add a task">＋</button>
+          <div class="top-avatar" id="topAvatar">CE</div>
         </div>
       </header>
 
-      <!-- Task Creation Card -->
-      <section class="task-form-card">
-        <h3>Create New Task</h3>
-        <form id="task-form">
-          <div class="form-grid">
-            <div class="form-group wide">
-              <label for="task-title">Task Title</label>
-              <input type="text" id="task-title" placeholder="e.g., Prepare quarterly donor impact report" required />
-            </div>
-
-            <div class="form-group">
-              <label for="task-role">Assigned Role</label>
-              <select id="task-role" required>
-                <option value="CEO">CEO</option>
-                <option value="Manager">Manager</option>
-                <option value="Accountant">Accountant</option>
-                <option value="Secretary">Secretary</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="task-priority">Priority</label>
-              <select id="task-priority" required>
-                <option value="High">High</option>
-                <option value="Medium" selected>Medium</option>
-                <option value="Low">Low</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="task-due">Due Date</label>
-              <input type="date" id="task-due" required />
-            </div>
+      <section class="content">
+        <div class="welcome-row">
+          <div>
+            <p class="eyebrow" id="welcomeEyebrow">ORGANISATION DASHBOARD</p>
+            <h1 id="pageTitle">Good morning, Chief Executive <span>✦</span></h1>
+            <p class="subtitle" id="pageSubtitle">Here is what is happening across NOURISH HUB today.</p>
           </div>
-          <button type="submit" class="submit-btn">+ Add Task</button>
-        </form>
-      </section>
-
-      <!-- Filter / Control Bar -->
-      <div class="filter-bar">
-        <div class="status-filters">
-          <button class="filter-btn active" data-status="all">All</button>
-          <button class="filter-btn" data-status="pending">Pending</button>
-          <button class="filter-btn" data-status="completed">Completed</button>
+          <button class="primary-button" id="createTaskBtn">＋ Create a task</button>
         </div>
-      </div>
 
-      <!-- Task List Container -->
-      <section class="tasks-container" id="tasks-list">
-        <!-- Injected via JavaScript -->
+        <section class="view active" id="view-overview">
+          <div class="stats-grid">
+            <article class="stat-card"><div class="stat-top"><span>Total tasks</span><span class="stat-icon lavender">▤</span></div><strong id="statTotal">0</strong><small><span class="trend">All assignments</span></small></article>
+            <article class="stat-card"><div class="stat-top"><span>In progress</span><span class="stat-icon blue">◷</span></div><strong id="statProgress">0</strong><small>Currently being worked on</small></article>
+            <article class="stat-card"><div class="stat-top"><span>Completed</span><span class="stat-icon green">✓</span></div><strong id="statCompleted">0</strong><small>Successfully finished</small></article>
+            <article class="stat-card"><div class="stat-top"><span>Overdue</span><span class="stat-icon orange">!</span></div><strong id="statOverdue">0</strong><small>Needs attention</small></article>
+          </div>
+
+          <div class="dashboard-grid">
+            <article class="panel task-panel">
+              <div class="panel-heading"><div><h2>Priority tasks</h2><p>Important work that needs attention</p></div><button class="text-button" data-goto="tasks">View all →</button></div>
+              <div id="priorityTasks" class="compact-task-list"></div>
+            </article>
+            <article class="panel progress-panel">
+              <div class="panel-heading"><div><h2>Task progress</h2><p>Organisation-wide completion</p></div></div>
+              <div class="progress-summary"><div class="donut" id="progressDonut"><div><strong id="progressPercent">0%</strong><span>completed</span></div></div><div class="progress-legend"><div><i class="legend-dot done"></i><span>Completed</span><b id="legendDone">0</b></div><div><i class="legend-dot doing"></i><span>In progress</span><b id="legendDoing">0</b></div><div><i class="legend-dot todo"></i><span>To do</span><b id="legendTodo">0</b></div></div></div>
+            </article>
+          </div>
+
+          <div class="dashboard-grid lower-grid">
+            <article class="panel">
+              <div class="panel-heading"><div><h2>Upcoming activities</h2><p>Meetings and important dates</p></div><button class="text-button" data-goto="calendar">See calendar →</button></div>
+              <div id="upcomingList" class="upcoming-list"></div>
+            </article>
+            <article class="panel">
+              <div class="panel-heading"><div><h2>Team workload</h2><p>Tasks assigned by department role</p></div></div>
+              <div id="workloadList" class="workload-list"></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-tasks">
+          <div class="toolbar">
+            <div class="search-box"><span>⌕</span><input id="taskSearch" type="search" placeholder="Search tasks, projects or assignees..."></div>
+            <select id="statusFilter" aria-label="Filter by status"><option value="all">All statuses</option><option value="To do">To do</option><option value="In progress">In progress</option><option value="Completed">Completed</option></select>
+            <select id="departmentFilter" aria-label="Filter by department"><option value="all">All departments</option><option>CEO</option><option>Manager</option><option>Accountant</option><option>Secretary</option></select>
+            <button class="primary-button compact" id="taskPageAdd">＋ New task</button>
+          </div>
+          <article class="panel table-panel">
+            <div class="table-heading"><div><h2>All tasks</h2><p id="taskResultLabel">Track and manage organisational assignments</p></div><span class="soft-tag">Live workspace</span></div>
+            <div class="table-wrap"><table><thead><tr><th>TASK</th><th>ASSIGNED TO</th><th>DEPARTMENT</th><th>PRIORITY</th><th>DUE DATE</th><th>STATUS</th><th></th></tr></thead><tbody id="taskTableBody"></tbody></table></div>
+            <div class="empty-state hidden" id="emptyTasks"><div>▤</div><strong>No tasks found</strong><p>Try changing your filters or create a new task.</p></div>
+          </article>
+        </section>
+
+        <section class="view" id="view-finance">
+          <div class="stats-grid finance-stats">
+            <article class="stat-card"><div class="stat-top"><span>Total income</span><span class="stat-icon green">↙</span></div><strong id="incomeTotal">XAF 0</strong><small>Recorded income</small></article>
+            <article class="stat-card"><div class="stat-top"><span>Total expenses</span><span class="stat-icon orange">↗</span></div><strong id="expenseTotal">XAF 0</strong><small>Recorded expenditure</small></article>
+            <article class="stat-card"><div class="stat-top"><span>Available balance</span><span class="stat-icon lavender">◫</span></div><strong id="balanceTotal">XAF 0</strong><small>Income less expenses</small></article>
+          </div>
+          <article class="panel">
+            <div class="panel-heading"><div><h2>Financial records</h2><p>Track grants, donations, project income and expenses</p></div><button class="primary-button compact" id="addTransactionBtn">＋ Add record</button></div>
+            <div class="table-wrap"><table><thead><tr><th>DESCRIPTION</th><th>TYPE</th><th>PROJECT / SOURCE</th><th>DATE</th><th>AMOUNT</th></tr></thead><tbody id="financeTableBody"></tbody></table></div>
+            <div class="empty-state hidden" id="emptyFinance"><div>◫</div><strong>No financial records yet</strong><p>Add an income or expense record to get started.</p></div>
+          </article>
+          <p class="notice">Finance records are a simple operational tracker, not a substitute for audited accounting software.</p>
+        </section>
+
+        <section class="view" id="view-calendar">
+          <article class="panel">
+            <div class="panel-heading"><div><h2>Meetings & events</h2><p>Coordinate team meetings, field visits and NGO activities</p></div><button class="primary-button compact" id="addEventBtn">＋ Add activity</button></div>
+            <div id="eventList" class="event-list"></div>
+            <div class="empty-state hidden" id="emptyEvents"><div>▦</div><strong>No upcoming activities</strong><p>Add a meeting or event to keep everyone informed.</p></div>
+          </article>
+        </section>
+
+        <section class="view" id="view-team">
+          <div class="team-grid" id="teamGrid"></div>
+          <article class="panel role-guide"><h2>Department responsibilities</h2><div class="role-guide-grid"><div><b>CEO</b><p>Strategic direction, approvals, oversight and organisational performance.</p></div><div><b>Manager</b><p>Daily operations, project coordination, task allocation and follow-up.</p></div><div><b>Accountant</b><p>Budgets, income and expenditure records, financial reporting.</p></div><div><b>Secretary</b><p>Correspondence, minutes, schedules, documentation and administration.</p></div></div></article>
+        </section>
       </section>
+      <footer class="footer"><span>© <span id="year"></span> NOURISH HUB</span><span>Organise with purpose. Deliver with impact.</span></footer>
     </main>
   </div>
 
+  <div class="modal-backdrop hidden" id="taskModal">
+    <form class="modal" id="taskForm">
+      <div class="modal-header"><div><p class="eyebrow">WORK MANAGEMENT</p><h2>Create a task</h2></div><button type="button" class="close-button" data-close="taskModal">×</button></div>
+      <label>Task title<input name="title" required maxlength="100" placeholder="e.g. Prepare quarterly project report"></label>
+      <label>Description<textarea name="description" rows="3" placeholder="Add details, expected outcome or instructions"></textarea></label>
+      <div class="form-grid"><label>Assign to<select name="assignee" required><option value="CEO">CEO</option><option value="Manager">Manager</option><option value="Accountant">Accountant</option><option value="Secretary">Secretary</option></select></label><label>Department<select name="department"><option>CEO</option><option>Manager</option><option>Accountant</option><option>Secretary</option></select></label></div>
+      <div class="form-grid"><label>Due date<input type="date" name="dueDate" required></label><label>Priority<select name="priority"><option>Medium</option><option>High</option><option>Low</option></select></label></div>
+      <label>Project / programme<input name="project" placeholder="e.g. Community Nutrition Programme"></label>
+      <div class="modal-actions"><button type="button" class="secondary-button" data-close="taskModal">Cancel</button><button type="submit" class="primary-button">Save task</button></div>
+    </form>
+  </div>
+
+  <div class="modal-backdrop hidden" id="transactionModal">
+    <form class="modal" id="transactionForm">
+      <div class="modal-header"><div><p class="eyebrow">FINANCE</p><h2>Add financial record</h2></div><button type="button" class="close-button" data-close="transactionModal">×</button></div>
+      <label>Description<input name="description" required placeholder="e.g. Community outreach transport"></label>
+      <div class="form-grid"><label>Record type<select name="type"><option>Expense</option><option>Income</option></select></label><label>Amount (XAF)<input type="number" name="amount" min="1" step="1" required placeholder="50000"></label></div>
+      <label>Project / source<input name="source" placeholder="e.g. Nutrition programme / donor name"></label>
+      <label>Date<input type="date" name="date" required></label>
+      <div class="modal-actions"><button type="button" class="secondary-button" data-close="transactionModal">Cancel</button><button type="submit" class="primary-button">Save record</button></div>
+    </form>
+  </div>
+
+  <div class="modal-backdrop hidden" id="eventModal">
+    <form class="modal" id="eventForm">
+      <div class="modal-header"><div><p class="eyebrow">SCHEDULING</p><h2>Add meeting or event</h2></div><button type="button" class="close-button" data-close="eventModal">×</button></div>
+      <label>Activity title<input name="title" required placeholder="e.g. Monthly programme review"></label>
+      <div class="form-grid"><label>Date<input type="date" name="date" required></label><label>Time<input type="time" name="time" required></label></div>
+      <label>Location / platform<input name="location" placeholder="e.g. Main office / Zoom"></label>
+      <label>Organiser<select name="organiser"><option>Secretary</option><option>CEO</option><option>Manager</option><option>Accountant</option></select></label>
+      <div class="modal-actions"><button type="button" class="secondary-button" data-close="eventModal">Cancel</button><button type="submit" class="primary-button">Save activity</button></div>
+    </form>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
   <script src="app.js"></script>
 </body>
 </html>
