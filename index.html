@@ -11,7 +11,37 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="app-shell">
+  <section class="auth-screen" id="authScreen">
+    <div class="auth-brand"><div class="brand-mark">N</div><div><strong>NOURISH HUB</strong><span>People • Purpose • Progress</span></div></div>
+    <div class="auth-card">
+      <div class="auth-heading"><p class="eyebrow">NOURISH HUB WORKSPACE</p><h1 id="authTitle">Welcome back</h1><p id="authSubtitle">Sign in with your personal account to continue.</p></div>
+      <div class="auth-tabs"><button type="button" class="auth-tab active" data-auth-view="login">Log in</button><button type="button" class="auth-tab" data-auth-view="signup">Create account</button></div>
+      <form id="loginForm" class="auth-form">
+        <label>Email address<input type="email" name="email" autocomplete="username" required placeholder="you@example.com"></label>
+        <label>Password<input type="password" name="password" autocomplete="current-password" required placeholder="Enter your password"></label>
+        <p class="auth-error" id="loginError" role="alert"></p>
+        <button class="primary-button auth-submit" type="submit">Log in to workspace</button>
+      </form>
+      <form id="signupForm" class="auth-form hidden">
+        <label>Full name<input type="text" name="name" required maxlength="80" autocomplete="name" placeholder="Enter your full name"></label>
+        <label>Email address<input type="email" name="email" required autocomplete="email" placeholder="you@example.com"></label>
+        <label>Select your role<select name="role" required><option value="">Choose your role</option><option>CEO</option><option>Manager</option><option>Account Manager</option><option>Secretary</option><option>Program Coordinator</option></select></label>
+        <label>Create password<input type="password" name="password" required minlength="8" autocomplete="new-password" placeholder="At least 8 characters"></label>
+        <label>Confirm password<input type="password" name="confirmPassword" required minlength="8" autocomplete="new-password" placeholder="Re-enter your password"></label>
+        <p class="auth-error" id="signupError" role="alert"></p>
+        <button class="primary-button auth-submit" type="submit">Create my account</button>
+      </form>
+      <p class="auth-footnote">Use your own account. Your role is assigned when you register and cannot be switched from inside the workspace.</p>
+    </div>
+    <section class="ai-card login-ai-card" aria-label="Gemini AI assistant">
+      <div class="ai-card-heading"><div class="ai-spark">✦</div><div><strong>Ask NOURISH AI</strong><span>Powered by Google Gemini</span></div><span class="ai-status">AI ASSISTANT</span></div>
+      <div class="ai-messages" id="loginAiMessages"><div class="ai-message assistant">Hello! I’m the NOURISH HUB AI assistant. Ask me about task planning, NGO operations, programme coordination, reporting or how to use this workspace.</div></div>
+      <form class="ai-compose" id="loginAiForm"><input id="loginAiInput" maxlength="1200" placeholder="Ask a question..." aria-label="Ask Gemini a question" required><button type="submit" aria-label="Send question">➤</button></form>
+      <p class="ai-disclaimer">Do not enter passwords, personal data or confidential employee information.</p>
+    </section>
+    <p class="auth-copyright">© <span id="authYear"></span> NOURISH HUB · Organise with purpose. Deliver with impact.</p>
+  </section>
+  <div class="app-shell hidden" id="appShell">
     <aside class="sidebar" id="sidebar">
       <div class="brand">
         <div class="brand-mark">N</div>
@@ -36,7 +66,7 @@
         <div class="profile-mini">
           <div class="avatar" id="sideAvatar">CE</div>
           <div class="profile-copy"><strong id="sideName">Chief Executive</strong><span id="sideRole">CEO</span></div>
-          <button class="dots" id="roleSwitchBtn" title="Switch role" aria-label="Switch role">•••</button>
+          <button class="logout-button" id="logoutBtn" title="Log out">Log out</button>
         </div>
       </div>
     </aside>
@@ -91,13 +121,17 @@
               <div id="workloadList" class="workload-list"></div>
             </article>
           </div>
+          <section class="panel ceo-oversight hidden" id="ceoDashboardPanel">
+            <div class="panel-heading"><div><h2>Employee oversight</h2><p>Open staff profiles to review task progress. View-only access.</p></div><span class="read-only-tag">CEO VIEW ONLY</span></div>
+            <div class="employee-grid" id="ceoDashboardProfiles"></div>
+          </section>
         </section>
 
         <section class="view" id="view-tasks">
           <div class="toolbar">
             <div class="search-box"><span>⌕</span><input id="taskSearch" type="search" placeholder="Search tasks, projects or assignees..."></div>
             <select id="statusFilter" aria-label="Filter by status"><option value="all">All statuses</option><option value="To do">To do</option><option value="In progress">In progress</option><option value="Completed">Completed</option></select>
-            <select id="departmentFilter" aria-label="Filter by department"><option value="all">All departments</option><option>CEO</option><option>Manager</option><option>Accountant</option><option>Secretary</option></select>
+            <select id="departmentFilter" aria-label="Filter by department"><option value="all">All departments</option><option>CEO</option><option>Manager</option><option>Account Manager</option><option>Secretary</option><option>Program Coordinator</option></select>
             <button class="primary-button compact" id="taskPageAdd">＋ New task</button>
           </div>
           <article class="panel table-panel">
@@ -130,12 +164,32 @@
         </section>
 
         <section class="view" id="view-team">
+          <section class="panel ceo-oversight hidden" id="ceoOversight">
+            <div class="panel-heading"><div><h2>Employee profiles</h2><p>Read-only staff performance overview. The CEO cannot edit employee profiles here.</p></div><span class="read-only-tag">VIEW ONLY</span></div>
+            <div class="employee-grid" id="employeeProfiles"></div>
+          </section>
           <div class="team-grid" id="teamGrid"></div>
-          <article class="panel role-guide"><h2>Department responsibilities</h2><div class="role-guide-grid"><div><b>CEO</b><p>Strategic direction, approvals, oversight and organisational performance.</p></div><div><b>Manager</b><p>Daily operations, project coordination, task allocation and follow-up.</p></div><div><b>Accountant</b><p>Budgets, income and expenditure records, financial reporting.</p></div><div><b>Secretary</b><p>Correspondence, minutes, schedules, documentation and administration.</p></div></div></article>
+          <article class="panel role-guide"><h2>Department responsibilities</h2><div class="role-guide-grid"><div><b>CEO</b><p>Strategic direction, approvals, oversight and organisational performance.</p></div><div><b>Manager</b><p>Daily operations, project coordination, task allocation and follow-up.</p></div><div><b>Account Manager</b><p>Budgets, income and expenditure records, financial reporting.</p></div><div><b>Secretary</b><p>Correspondence, minutes, schedules, documentation and administration.</p></div><div><b>Program Coordinator</b><p>Programme implementation, field activities, monitoring and reporting.</p></div></div></article>
         </section>
       </section>
       <footer class="footer"><span>© <span id="year"></span> NOURISH HUB</span><span>Organise with purpose. Deliver with impact.</span></footer>
     </main>
+  </div>
+
+  <button class="ai-launcher hidden" id="portalAiLauncher" aria-label="Open Gemini AI assistant">✦ <span>Ask AI</span></button>
+  <section class="ai-card portal-ai-card hidden" id="portalAiPanel" aria-label="Gemini AI assistant">
+    <div class="ai-card-heading"><div class="ai-spark">✦</div><div><strong>NOURISH AI</strong><span>Powered by Google Gemini</span></div><button class="ai-close" id="closePortalAi" aria-label="Close AI assistant">×</button></div>
+    <div class="ai-messages" id="portalAiMessages"><div class="ai-message assistant">Hi! I can help you understand your tasks, plan your work and prepare reports. What would you like help with?</div></div>
+    <form class="ai-compose" id="portalAiForm"><input id="portalAiInput" maxlength="1200" placeholder="Ask about your tasks..." aria-label="Ask Gemini a question" required><button type="submit" aria-label="Send question">➤</button></form>
+    <p class="ai-disclaimer">AI can make mistakes. Verify important information.</p>
+  </section>
+
+  <div class="modal-backdrop hidden" id="employeeProfileModal">
+    <section class="modal employee-profile-modal" role="dialog" aria-modal="true" aria-labelledby="employeeProfileTitle">
+      <div class="modal-header"><div><p class="eyebrow">CEO · READ-ONLY STAFF VIEW</p><h2 id="employeeProfileTitle">Employee profile</h2></div><button type="button" class="close-button" data-close="employeeProfileModal">×</button></div>
+      <div id="employeeProfileContent"></div>
+      <div class="modal-actions"><span class="read-only-note"> <span>●</span> View-only access · Changes are disabled</span><button type="button" class="primary-button" data-close="employeeProfileModal">Close profile</button></div>
+    </section>
   </div>
 
   <div class="modal-backdrop hidden" id="taskModal">
@@ -143,7 +197,7 @@
       <div class="modal-header"><div><p class="eyebrow">WORK MANAGEMENT</p><h2>Create a task</h2></div><button type="button" class="close-button" data-close="taskModal">×</button></div>
       <label>Task title<input name="title" required maxlength="100" placeholder="e.g. Prepare quarterly project report"></label>
       <label>Description<textarea name="description" rows="3" placeholder="Add details, expected outcome or instructions"></textarea></label>
-      <div class="form-grid"><label>Assign to<select name="assignee" required><option value="CEO">CEO</option><option value="Manager">Manager</option><option value="Accountant">Accountant</option><option value="Secretary">Secretary</option></select></label><label>Department<select name="department"><option>CEO</option><option>Manager</option><option>Accountant</option><option>Secretary</option></select></label></div>
+      <div class="form-grid"><label>Assign to<select name="assignee" id="assigneeSelect" required><option value="">Choose an employee</option><option value="CEO">CEO (role assignment)</option><option value="Manager">Manager (role assignment)</option><option value="Account Manager">Account Manager (role assignment)</option><option value="Secretary">Secretary (role assignment)</option><option value="Program Coordinator">Program Coordinator (role assignment)</option></select></label><label>Department<select name="department"><option>CEO</option><option>Manager</option><option>Account Manager</option><option>Secretary</option><option>Program Coordinator</option></select></label></div>
       <div class="form-grid"><label>Due date<input type="date" name="dueDate" required></label><label>Priority<select name="priority"><option>Medium</option><option>High</option><option>Low</option></select></label></div>
       <label>Project / programme<input name="project" placeholder="e.g. Community Nutrition Programme"></label>
       <div class="modal-actions"><button type="button" class="secondary-button" data-close="taskModal">Cancel</button><button type="submit" class="primary-button">Save task</button></div>
@@ -167,7 +221,7 @@
       <label>Activity title<input name="title" required placeholder="e.g. Monthly programme review"></label>
       <div class="form-grid"><label>Date<input type="date" name="date" required></label><label>Time<input type="time" name="time" required></label></div>
       <label>Location / platform<input name="location" placeholder="e.g. Main office / Zoom"></label>
-      <label>Organiser<select name="organiser"><option>Secretary</option><option>CEO</option><option>Manager</option><option>Accountant</option></select></label>
+      <label>Organiser<select name="organiser"><option>Secretary</option><option>CEO</option><option>Manager</option><option>Account Manager</option><option>Program Coordinator</option></select></label>
       <div class="modal-actions"><button type="button" class="secondary-button" data-close="eventModal">Cancel</button><button type="submit" class="primary-button">Save activity</button></div>
     </form>
   </div>
