@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NOURISH HUB - Task Management</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-badge">NH</span>
+        <h2>NOURISH HUB</h2>
+      </div>
+
+      <nav class="nav-roles">
+        <p class="nav-heading">ROLES & DEPARTMENTS</p>
+        <button class="nav-btn active" data-role="all">
+          <span class="icon">📋</span> All Tasks
+        </button>
+        <button class="nav-btn" data-role="CEO">
+          <span class="icon">👑</span> CEO Office
+        </button>
+        <button class="nav-btn" data-role="Manager">
+          <span class="icon">📊</span> Manager
+        </button>
+        <button class="nav-btn" data-role="Accountant">
+          <span class="icon">💰</span> Accountant
+        </button>
+        <button class="nav-btn" data-role="Secretary">
+          <span class="icon">📂</span> Secretary
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <p class="ngo-tag">Empowering Community Nutrition</p>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Top Header -->
+      <header class="topbar">
+        <div>
+          <h1 id="current-view-title">All Tasks Overview</h1>
+          <p class="subtitle" id="current-view-desc">Tracking active NGO assignments and operations</p>
+        </div>
+        <div class="stats-pills">
+          <span class="pill total" id="total-stat">0 Total</span>
+          <span class="pill completed" id="completed-stat">0 Done</span>
+        </div>
+      </header>
+
+      <!-- Task Creation Card -->
+      <section class="task-form-card">
+        <h3>Create New Task</h3>
+        <form id="task-form">
+          <div class="form-grid">
+            <div class="form-group wide">
+              <label for="task-title">Task Title</label>
+              <input type="text" id="task-title" placeholder="e.g., Prepare quarterly donor impact report" required />
+            </div>
+
+            <div class="form-group">
+              <label for="task-role">Assigned Role</label>
+              <select id="task-role" required>
+                <option value="CEO">CEO</option>
+                <option value="Manager">Manager</option>
+                <option value="Accountant">Accountant</option>
+                <option value="Secretary">Secretary</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="task-priority">Priority</label>
+              <select id="task-priority" required>
+                <option value="High">High</option>
+                <option value="Medium" selected>Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="task-due">Due Date</label>
+              <input type="date" id="task-due" required />
+            </div>
+          </div>
+          <button type="submit" class="submit-btn">+ Add Task</button>
+        </form>
+      </section>
+
+      <!-- Filter / Control Bar -->
+      <div class="filter-bar">
+        <div class="status-filters">
+          <button class="filter-btn active" data-status="all">All</button>
+          <button class="filter-btn" data-status="pending">Pending</button>
+          <button class="filter-btn" data-status="completed">Completed</button>
+        </div>
+      </div>
+
+      <!-- Task List Container -->
+      <section class="tasks-container" id="tasks-list">
+        <!-- Injected via JavaScript -->
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
